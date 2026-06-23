@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Word {
+  id          Int        @id @default(autoincrement())
+  word        String
+  translation String
+  progress    Progress[]
+}
+
+model Progress {
+  id         Int      @id @default(autoincrement())
+  chatId     String
+  wordId     Int
+  status     String   @default("learning")
+  
+  // Добавляем поля для интервального повторения:
+  box        Int      @default(1)
+  nextReview DateTime @default(now())
+  
+  updatedAt  DateTime @updatedAt
+  word       Word     @relation(fields: [wordId], references: [id], onDelete: Cascade)
+
+  @@unique([chatId, wordId])
+}
