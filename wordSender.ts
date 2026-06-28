@@ -13,7 +13,18 @@ const calculateInterval = (currentBox: number, isCorrect: boolean) => {
     return { box: 1, nextReview };
   }
   const nextBox = Math.min(currentBox + 1, 5);
-  const intervals: Record<number, number> = { 1: 1, 2: 3, 3: 5, 4: 10, 5: 15 };
+  const intervals: Record<number, number> = {
+    1: 1,
+    2: 3,
+    3: 5,
+    4: 10,
+    5: 15,
+    6: 30,
+    7: 45,
+    8: 60,
+    9: 90,
+    10: 120,
+  };
   const nextReview = new Date();
   nextReview.setDate(nextReview.getDate() + (intervals[nextBox] || 30));
   return { box: nextBox, nextReview };
