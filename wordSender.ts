@@ -9,10 +9,11 @@ const prisma = new PrismaClient({
 const calculateInterval = (currentBox: number, isCorrect: boolean) => {
   if (!isCorrect) {
     const nextReview = new Date();
+    nextReview.setHours(0,0,0,0);
     nextReview.setDate(nextReview.getDate() + 1);
     return { box: 1, nextReview };
   }
-  const nextBox = Math.min(currentBox + 1, 5);
+  const nextBox = Math.min(currentBox + 1, 10);
   const intervals: Record<number, number> = {
     1: 1,
     2: 3,
@@ -25,8 +26,8 @@ const calculateInterval = (currentBox: number, isCorrect: boolean) => {
     9: 90,
     10: 120,
   };
-  const nextReview = new Date();
-  nextReview.setDate(nextReview.getDate() + (intervals[nextBox] || 30));
+  const daysToAdd = intervals[nextBox] ?? 30;
+  nextReview.setDate(nextReview.getDate() + daysToAdd);
   return { box: nextBox, nextReview };
 };
 
