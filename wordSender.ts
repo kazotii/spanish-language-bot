@@ -7,9 +7,9 @@ const prisma = new PrismaClient({
 });
 
 const calculateInterval = (currentBox: number, isCorrect: boolean) => {
+  const nextReview = new Date();
+  nextReview.setHours(0,0,0,0);
   if (!isCorrect) {
-    const nextReview = new Date();
-    nextReview.setHours(0,0,0,0);
     nextReview.setDate(nextReview.getDate() + 1);
     return { box: 1, nextReview };
   }
